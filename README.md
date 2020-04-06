@@ -42,13 +42,14 @@ docker run --net=host \
 ```
 
 ### Preparation of the autoinstall files
-Every preseed/kickstart/autoinst file make sure that a user named packer is created.
+Every preseed/kickstart/autoinst file must make sure that a user named packer is created.
 Password hashes (from the password in $PACKER_PASS) can be created with the following commands:
 
 #### sha512 ($6$...)
 ```bash
 echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$alekshdifoanelf8")' | python -
 $6$....
+```
 
 ### bcrypt ($2y$...)
 ```bash
