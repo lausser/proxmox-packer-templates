@@ -51,7 +51,7 @@ echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$alekshdifoa
 $6$....
 ```
 
-### bcrypt ($2y$...)
+#### bcrypt ($2y$...)
 ```bash
 htpasswd -bnBC 10 "" <passwort> |  tr -d ':\n'
 ```
