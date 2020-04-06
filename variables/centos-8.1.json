@@ -1,0 +1,10 @@
+{
+  "template_name": "centos-8.1",
+
+  "iso_file": "CentOS-8.1.1911-x86_64-dvd1.iso",
+  "iso_checksum": "8d0573c5fb5444007936b652d8c6724d",
+  "iso_checksum_type": "md5",
+
+  "ks_cfg": "centos-8.1.cfg",
+  "boot_command": "<tab><bs><bs><bs><bs><bs>text inst.ks=http://{{ user `packer_ip` }}:{{ .HTTPPort }}/{{ user `ks_cfg` }}<enter><wait>"
+}

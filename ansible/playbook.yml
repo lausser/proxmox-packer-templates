@@ -1,0 +1,58 @@
+---
+# playbook.yml
+- name: "Provision Image"
+  hosts: default
+  become: true
+
+  tasks:
+  - name: Display all variables/facts known for a host
+    debug:
+      var: hostvars
+      verbosity: 4
+  - name: Permit root login
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^PermitRootLogin"
+      line: "PermitRootLogin yes"
+      state: present
+  - name: Dont use DNS
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^UseDNS"
+      line: "UseDNS no"
+      state: present
+  - name: Dont use GSSAPIAuthentication
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      regexp: "^GSSAPIAuthentication"
+      line: "GSSAPIAuthentication no"
+      state: present
+
+  # "ansible_distribution": "CentOS"
+  # "ansible_distribution_version": "8.1"
+  # "distribution_file_variety": "RedHat"
+  - name: Print some debug information 
+    vars: 
+      msg: |
+        Module Variables ("vars"):
+        --------------------------------
+        {{ vars | to_nice_json }} 
+        
+        Environment Variables ("environment"):
+        --------------------------------
+        {{ environment | to_nice_json }} 
+        
+        GROUP NAMES Variables ("group_names"):
+        --------------------------------
+        {{ group_names | to_nice_json }}
+        
+        GROUPS Variables ("groups"):
+        --------------------------------
+        {{ groups | to_nice_json }}
+        
+        HOST Variables ("hostvars"):
+        --------------------------------
+        {{ hostvars | to_nice_json }} 
+  
+    debug: 
+      msg: "{{ msg.split('\n') }}"       

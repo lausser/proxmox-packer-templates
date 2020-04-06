@@ -1,0 +1,13 @@
+{
+  "proxmox_url": "{{env `PM_API_URL`}}",
+  "proxmox_user": "{{env `PM_USER`}}",
+  "proxmox_pass": "{{env `PM_PASS`}}",
+  "proxmox_node": "vm02",
+  "proxmox_bridge": "vmbr0",
+  "proxmox_pool": "build",
+  "storage_pool": "ceph01",
+  "storage_pool_type": "lvm",
+  "cache_mode": "unsafe",
+  "iso_pool": "cephfs01"
+}
+

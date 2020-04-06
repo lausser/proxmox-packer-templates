@@ -1,0 +1,43 @@
+{
+  "builders": [
+    {
+      "type": "proxmox",
+      "proxmox_url": "{{user `proxmox_url`}}",
+      "insecure_skip_tls_verify": true,
+      "username": "{{user `proxmox_user`}}",
+      "password": "{{user `proxmox_pass`}}",
+      "node": "{{user `proxmox_node`}}",
+      "network_adapters": [
+        {
+          "model": "virtio",
+          "bridge": "{{user `proxmox_bridge`}}"
+        }
+      ],
+      "memory": "{{user `memory`}}",
+      "cores": "{{user `cores`}}",
+      "pool": "{{user `proxmox_pool`}}",
+      "disks": [
+        {
+          "type": "virtio",
+          "disk_size": "{{user `disk_size`}}",
+          "storage_pool": "{{user `storage_pool`}}",
+          "storage_pool_type": "{{user `storage_pool_type`}}",
+          "cache_mode": "{{user `cache_mode`}}"
+        }
+      ],
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_timeout": "1200s",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "http_directory": "http",
+      "unmount_iso": true,
+      "boot_wait": "10s",
+
+
+      "iso_file": "{{user `iso_pool`}}:iso/{{user `iso_file`}}",
+      "boot_command": "{{user `boot_command`}}",
+      "template_name": "t-{{ user `template_name` }}",
+      "template_description": "{{ user `template_name` }} built with {{ build_type }} at {{isotime \"Mon, 2 Jan 2006 15:04:05 CET\"}}"
+    }
+  ]
+}
+

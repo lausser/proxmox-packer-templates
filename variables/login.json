@@ -1,0 +1,4 @@
+{
+  "ssh_username": "packer",
+  "ssh_password": "{{ env `PACKER_PASS` }}"
+}
