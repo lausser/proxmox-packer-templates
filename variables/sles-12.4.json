@@ -1,0 +1,12 @@
+{
+  "template_name": "sles-12.4",
+
+  "iso_file": "SLE-12-SP4-Server-DVD-x86_64-GM-DVD1.iso",
+  "iso_checksum": "8c7a8a2cc9f08c4cbde93104de3b5cea",
+  "iso_checksum_type": "md5",
+
+  "autoinst_cfg": "sles-12.4-autoinst.xml",
+
+  "boot_command": "<esc><enter><wait><wait>linux netdevice=eth0 netsetup=dhcp install=cd:/ <wait>lang=en_US autoyast=http://{{ user `packer_ip` }}:{{ .HTTPPort }}/{{user `autoinst_cfg`}} <wait>textmode=1<wait><enter><wait>",
+  "sftp_command": "/usr/lib/ssh/sftp-server"
+}

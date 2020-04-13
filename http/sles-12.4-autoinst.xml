@@ -76,7 +76,7 @@
     <dns>
       <dhcp_hostname config:type="boolean">false</dhcp_hostname>
       <domain>monitoring.consol.de</domain>
-      <hostname>sles-12-sp4-x86_64</hostname>
+      <hostname>sles-12-4</hostname>
       <resolv_conf_policy>auto</resolv_conf_policy>
       <searchlist config:type="list">
         <search>vagrantup.com</search>
@@ -228,7 +228,7 @@
       <encrypted config:type="boolean">true</encrypted>
       <fullname>packer</fullname>
       <gid>100</gid>
-      <home>/home/vagrant</home>
+      <home>/home/packer</home>
       <password_settings>
         <expire/>
         <flag/>
@@ -278,6 +278,14 @@
 #            touch /var/tmp/yastpostscript
             systemctl enable qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0
             systemctl start qemu-ga@virtio\\x2dports-org.qemu.guest_agent.0
+        ]]></source>
+      </script>
+      <script>
+        <filename>sudoers.sh</filename>
+        <interpreter>shell</interpreter>
+        <debug config:type="boolean">true</debug>
+        <source><![CDATA[
+            echo "packer ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/packer
         ]]></source>
       </script>
     </post-scripts>

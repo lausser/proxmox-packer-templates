@@ -1,0 +1,34 @@
+- zypper_repository:
+    # contains timezone, needed by python-pytz
+    repo: "https://download.opensuse.org/repositories/Cloud:/OpenStack:/Rocky/SLE_12_SP4/Cloud:OpenStack:Rocky.repo"
+    state: present
+    auto_import_keys: yes
+    disable_gpg_check: yes
+
+- zypper_repository:
+    # contains python-pytz, needed by python-jsonschema
+    repo: "https://download.opensuse.org/repositories/Virtualization:containers/SLE_12_SP4/Virtualization:containers.repo"
+    state: present
+    auto_import_keys: yes
+    disable_gpg_check: yes
+
+- zypper_repository:
+    # contains cloud-init
+    repo: "https://download.opensuse.org/repositories/Cloud:Tools/SLE_12_SP4/Cloud:Tools.repo"
+    state: present
+    auto_import_keys: yes
+    disable_gpg_check: yes
+
+- name: install cloud-init
+  zypper:
+    update_cache: yes
+    disable_gpg_check: yes
+    name: cloud-init
+    state: present
+
+- name: make cloud-init start on the next boot
+  systemd:
+    name: cloud-init
+    enabled: yes
+    state: stopped
+    no_block: yes
