@@ -1,0 +1,11 @@
+{
+  "template_name": "centos-7.7",
+
+  "iso_file": "CentOS-7-x86_64-Minimal-1908.iso",
+  "iso_checksum": "7002b56184180591a8fa08c2fe0c7338",
+  "iso_checksum_type": "md5",
+
+  "boot_command": "<tab><bs><bs><bs><bs><bs>text inst.ks=http://{{ user `packer_ip` }}:{{ .HTTPPort }}/{{ user `template_name` }}.cfg<enter><wait>",
+
+  "sftp_command": "/usr/libexec/openssh/sftp-server -e"
+}
