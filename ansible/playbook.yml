@@ -9,18 +9,84 @@
     debug:
       var: hostvars
       verbosity: 4
-  - name: Permit root login
+
+  - name: Print several lines of text
+    vars:
+      msg: |
+           ansible_distribution is {{ ansible_distribution }}
+           ansible_distribution_version is {{ ansible_distribution_version }}
+           ansible_distribution_major_version is {{ ansible_distribution_major_version }}
+           ansible_os_family is {{ ansible_os_family }}
+    debug:
+      msg: "{{ msg.split('\n') }}"
+
+  - name: Include OS specific playbook
+    include: '{{ item }}'
+    with_first_found:
+      - files:
+          # "ansible_distribution" may be: "Debian", "SLES", "Ubuntu", "CentOS"
+          # "ansible_distribution_version" may be: "9.0", "12.2", "16.04", "7.3.1611"
+          # "ansible_distribution_major_version" may be: "9", "12", 16.04"
+          # "ansible_os_family" may be: "Debian", "RedHat", "Suse"
+          # Upper/lower case is important
+
+          - "{{ ansible_distribution|lower }}-{{ ansible_distribution_version }}.yml"
+          - "default.yml"
+        #paths: "./vars/"
+
+  - name: Overwrite clout-init's PermitRootLogin
+    # setting PermitRootLogin directly takes no effect as it will be
+    # overwritten during cloud-init
     lineinfile:
-      dest: /etc/ssh/sshd_config
-      regexp: "^PermitRootLogin"
-      line: "PermitRootLogin yes"
-      state: present
+      path: /etc/cloud/cloud.cfg
+      regexp: '^(.*)disable_root:(.*)\d+(.*)'
+      backrefs: yes
+      line: '\g<1>disable_root:\g<2>0\g<3>'
+
+  - name: Overwrite clout-init's PasswordAuthentication
+    lineinfile:
+      path: /etc/cloud/cloud.cfg
+      regexp: '^(.*)ssh_pwauth:(.*)\d+(.*)'
+      backrefs: yes
+      line: '\g<1>ssh_pwauth:\g<2>1\g<3>'
+
+
+  # "ansible_distribution": "CentOS"
+  # "ansible_distribution_version": "8.1"
+  # "distribution_file_variety": "RedHat"
+#  - name: Print some debug information 
+#    vars: 
+#      msg: |
+#        Module Variables ("vars"):
+#        --------------------------------
+#        {{ vars | to_nice_json }} 
+#        
+#        Environment Variables ("environment"):
+#        --------------------------------
+#        {{ environment | to_nice_json }} 
+#        
+#        GROUP NAMES Variables ("group_names"):
+#        --------------------------------
+#        {{ group_names | to_nice_json }}
+#        
+#        GROUPS Variables ("groups"):
+#        --------------------------------
+#        {{ groups | to_nice_json }}
+#        
+#        HOST Variables ("hostvars"):
+#        --------------------------------
+#        {{ hostvars | to_nice_json }} 
+#  
+#    debug: 
+#      msg: "{{ msg.split('\n') }}"       
+
   - name: Dont use DNS
     lineinfile:
       dest: /etc/ssh/sshd_config
       regexp: "^UseDNS"
       line: "UseDNS no"
       state: present
+
   - name: Dont use GSSAPIAuthentication
     lineinfile:
       dest: /etc/ssh/sshd_config
@@ -28,31 +94,8 @@
       line: "GSSAPIAuthentication no"
       state: present
 
-  # "ansible_distribution": "CentOS"
-  # "ansible_distribution_version": "8.1"
-  # "distribution_file_variety": "RedHat"
-  - name: Print some debug information 
-    vars: 
-      msg: |
-        Module Variables ("vars"):
-        --------------------------------
-        {{ vars | to_nice_json }} 
-        
-        Environment Variables ("environment"):
-        --------------------------------
-        {{ environment | to_nice_json }} 
-        
-        GROUP NAMES Variables ("group_names"):
-        --------------------------------
-        {{ group_names | to_nice_json }}
-        
-        GROUPS Variables ("groups"):
-        --------------------------------
-        {{ groups | to_nice_json }}
-        
-        HOST Variables ("hostvars"):
-        --------------------------------
-        {{ hostvars | to_nice_json }} 
-  
-    debug: 
-      msg: "{{ msg.split('\n') }}"       
+  - name: Set timezone to Europe/Berlin
+    timezone:
+      name: Europe/Berlin
+
+
