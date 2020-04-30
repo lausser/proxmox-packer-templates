@@ -5,5 +5,5 @@
   "iso_checksum": "d5bc5c59c24191bb45dd85fc6a420b34",
   "iso_checksum_type": "md5",
 
-  "boot_command": "<esc><esc><wait><enter><wait>/install/vmlinuz noapic initrd=/install/initrd.gz preseed/url=http://{{ user `packer_ip` }}:{{ .HTTPPort }}/{{user `template_name` }}-preseed.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=ubuntu-18.04 grub-installer/bootdev=/dev/vda<wait> fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false -- <enter>"
+  "boot_command": "<esc><esc><wait><enter><wait>/install/vmlinuz noapic initrd=/install/initrd.gz preseed/url=http://{{ user `packer_ip` }}:{{ .HTTPPort }}/{{user `template_name` }}.cfg debian-installer=en_US auto locale=en_US kbd-chooser/method=us hostname=ubuntu-18.04 grub-installer/bootdev=/dev/vda<wait> fb=false debconf/frontend=noninteractive keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false -- <enter>"
 }

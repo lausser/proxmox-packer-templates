@@ -11,3 +11,7 @@
     line: "# - package-update-upgrade-install"
     state: present
 
+- name: disable auditd
+  systemd:
+    name: auditd
+    enabled: no

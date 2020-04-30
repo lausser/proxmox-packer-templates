@@ -26,9 +26,43 @@
     name: cloud-init
     state: present
 
+- name: just force systemd to re-execute itself (2.8 and above)
+  systemd:
+    daemon_reexec: yes
+  failed_when: false
+  changed_when: false
+#
+#- name: reload service dbus, in all cases
+#  systemd:
+#    name: dbus
+#    state: started
+#
+
+#- name: make cloud-init start on the next boot
+#  systemd:
+#    name: cloud-init
+#    enabled: yes
+#    state: stopped
+#    no_block: yes
+#  failed_when: false
+#  changed_when: false
+
+- name: wait
+  pause:
+    minutes: 2
 - name: make cloud-init start on the next boot
   systemd:
     name: cloud-init
     enabled: yes
     state: stopped
     no_block: yes
+
+
+
+- name: Dont upgrade on boot
+  lineinfile:
+    dest: /etc/cloud/cloud.cfg
+    regexp: "^.*package-update-upgrade-install"
+    line: "# - package-update-upgrade-install"
+    state: present
+

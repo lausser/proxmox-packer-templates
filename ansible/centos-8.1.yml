@@ -4,3 +4,14 @@
     state: present
     update_cache: yes
 
+- name: Dont upgrade on boot
+  lineinfile:
+    dest: /etc/cloud/cloud.cfg
+    regexp: "^.*package-update-upgrade-install"
+    line: "# - package-update-upgrade-install"
+    state: present
+
+- name: disable auditd
+  systemd:
+    name: auditd
+    enabled: no

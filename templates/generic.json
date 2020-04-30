@@ -18,8 +18,9 @@
       ],
       "memory": "{{ user `memory` }}",
       "cores": "{{ user `cores` }}",
+      "cpu_type": "host",
       "pool": "{{ user `proxmox_pool` }}",
-      "scsi_controller": "virtio-scsi-pci",
+      "scsi_controller": "virtio-scsi-single",
       "disks": [
         {
           "type": "virtio",

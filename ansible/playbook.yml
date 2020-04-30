@@ -34,7 +34,7 @@
           - "default.yml"
         #paths: "./vars/"
 
-  - name: Overwrite clout-init's PermitRootLogin
+  - name: Overwrite cloud-init's PermitRootLogin
     # setting PermitRootLogin directly takes no effect as it will be
     # overwritten during cloud-init
     lineinfile:
@@ -43,7 +43,7 @@
       backrefs: yes
       line: '\g<1>disable_root:\g<2>0\g<3>'
 
-  - name: Overwrite clout-init's PasswordAuthentication
+  - name: Overwrite cloud-init's PasswordAuthentication
     lineinfile:
       path: /etc/cloud/cloud.cfg
       regexp: '^(.*)ssh_pwauth:(.*)\d+(.*)'
